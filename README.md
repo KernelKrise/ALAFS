@@ -28,7 +28,7 @@ Add the following MCP config to your `claude-desktop`:
 
 ```json
 "mcpServers": {
-    "my-sse-server": {
+    "ALAFS": {
       "command": "npx",
       "args": [
         "-y",
