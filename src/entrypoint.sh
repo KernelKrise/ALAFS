@@ -15,6 +15,7 @@ TARGET_APK_NAME="target.apk"
 TARGET_APK_FILEPATH="${SHARED_DIR}/${TARGET_APK_NAME}"
 PROJECT_DIR_NAME="project"
 PROJECT_DIRPATH="${APP_DIRECTORY}/${PROJECT_DIR_NAME}"
+VENV_PATH="${APP_DIRECTORY}/.venv"
 
 # Validate file
 if [ ! -f "${TARGET_APK_FILEPATH}" ]; then
@@ -30,5 +31,10 @@ fi
 ilog "Decompiling APK"
 apktool d -o "${PROJECT_DIRPATH}" "${TARGET_APK_FILEPATH}"
 
-# DEBUG
-bash
+# Activate venv
+ilog "Activating python venv"
+source "${VENV_PATH}/bin/activate"
+
+# Start main application
+ilog "Starting main application"
+python3 app.py

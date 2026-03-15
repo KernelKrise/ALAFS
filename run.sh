@@ -6,6 +6,8 @@ PROJECTS_DIR="${HOME}/.alafs"
 SHARED_DIR="${PROJECTS_DIR}/$(date +%s)_$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 4)"
 SHARED_VOLUME="/shared"
 CONTAINER_UID="1000"
+MCP_CONTAINER_PORT=5000
+MCP_HOST_PORT=31338
 
 # Logging
 ilog() {
@@ -49,5 +51,6 @@ docker run \
 	--rm \
 	-it \
 	-v "${SHARED_DIR}":"${SHARED_VOLUME}" \
+	-p "${MCP_HOST_PORT}":"${MCP_CONTAINER_PORT}" \
 	--name "${DOCKER_CONTAINER_NAME}" \
 	"${DOCKER_IMAGE_NAME}"
