@@ -3,8 +3,8 @@
 # Variables
 COMMON_VARS_FILE="common.sh"
 PROJECTS_DIR="${HOME}/.alafs"
-PROJECT_DIR="${PROJECTS_DIR}/$(date +%s)_$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 4)"
-PROJECT_VOLUME="/shared"
+SHARED_DIR="${PROJECTS_DIR}/$(date +%s)_$(tr -dc 'A-Za-z0-9' </dev/urandom | head -c 4)"
+SHARED_VOLUME="/shared"
 CONTAINER_UID="1000"
 
 # Logging
@@ -19,8 +19,8 @@ elog() {
 source "${COMMON_VARS_FILE}"
 
 # Create new project dir
-ilog "Creating new project directory: ${PROJECT_DIR}"
-mkdir -p "${PROJECT_DIR}"
+ilog "Creating new shared directory: ${SHARED_DIR}"
+mkdir -p "${SHARED_DIR}"
 
 # Parse arguments
 if [ "$#" -ne 1 ]; then
@@ -37,17 +37,17 @@ fi
 
 # Copy file to project directory
 ilog "Copying file to project directory"
-cp "${target_file}" "${PROJECT_DIR}/target.apk"
+cp "${target_file}" "${SHARED_DIR}/target.apk"
 
 # Change target file permissions
 ilog "Fixing permissions"
-chown "${USER}:${CONTAINER_UID}" "${PROJECT_DIR}/target.apk"
-chmod 640 "${PROJECT_DIR}/target.apk"
+chown "${USER}:${CONTAINER_UID}" "${SHARED_DIR}/target.apk"
+chmod 660 "${SHARED_DIR}/target.apk"
 
 # Start docker container
 docker run \
 	--rm \
 	-it \
-	-v "${PROJECT_DIR}":"${PROJECT_VOLUME}" \
+	-v "${SHARED_DIR}":"${SHARED_VOLUME}" \
 	--name "${DOCKER_CONTAINER_NAME}" \
 	"${DOCKER_IMAGE_NAME}"

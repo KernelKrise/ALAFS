@@ -11,7 +11,11 @@ RUN groupadd -g "${UID}" "${USERNAME}" && \
 
 # Install tools
 RUN DEBIAN_FRONTEND=noninteractive apt update -y && \
-    DEBIAN_FRONTEND=noninteractive apt install -y apktool
+    DEBIAN_FRONTEND=noninteractive apt install -y \
+    apktool \
+    file \
+    && apt autoremove -y \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set workdir
 WORKDIR "${APPDIR}"
