@@ -1,10 +1,14 @@
 # ALAFS
+
 Android LLM-driven Automated Fuzzing System
 
 ## Requirements
 
 - Docker
 - Docker buildx plugin
+- nodejs
+- npm
+- npx
 
 ## Build
 
@@ -15,6 +19,24 @@ Android LLM-driven Automated Fuzzing System
 ## Usage
 
 ```shell
-./run.sh <apk_filepath>
+./run.sh path/to/apk
 ```
 
+## MCP
+
+Add the following MCP config to your `claude-desktop`:
+
+```json
+"mcpServers": {
+    "my-sse-server": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "http://127.0.0.1:31338/sse"
+      ]
+    }
+  }
+```
+
+> To find you claude-desktop config: Settings->Developer->"Edit Config"
