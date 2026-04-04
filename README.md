@@ -5,6 +5,7 @@ Android LLM-driven Automated Fuzzing System
 ## Requirements
 
 - Docker
+- LLM Desktop of your choice ([Claude Desktop](https://claude.com/download) recommended)
 
 ## Build
 
