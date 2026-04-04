@@ -2,6 +2,7 @@
 .vscode/
 __pycache__/
 *.apk
+alafs.config
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

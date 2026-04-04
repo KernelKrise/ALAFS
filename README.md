@@ -6,9 +6,6 @@ Android LLM-driven Automated Fuzzing System
 
 - Docker
 - Docker buildx plugin
-- nodejs
-- npm
-- npx
 
 ## Build
 
@@ -16,27 +13,5 @@ Android LLM-driven Automated Fuzzing System
 ./build.sh
 ```
 
-## Usage
-
-```shell
-./run.sh path/to/apk
-```
-
-## MCP
-
-Add the following MCP config to your `claude-desktop`:
-
-```json
-"mcpServers": {
-    "ALAFS": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "mcp-remote",
-        "http://127.0.0.1:31338/sse"
-      ]
-    }
-  }
-```
-
-> To find you claude-desktop config: Settings->Developer->"Edit Config"
+> This will create MCP config file, you need to place it to your LLM Desktop environment.
+> Example. To find you claude-desktop config: Settings->Developer->"Edit Config"
