@@ -4,8 +4,7 @@ FROM debian:trixie-slim AS base
 ENV USERNAME=user \
     UID=1000 \
     APPDIR=/app \
-    GO_VERSION=1.26.1 \
-    JADX_VERSION=1.5.5
+    GO_VERSION=1.26.1
 
 # Create unprivilleged user
 RUN groupadd -g "${UID}" "${USERNAME}" && \
@@ -27,7 +26,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt update -y && \
     binwalk \
     zip \
     unzip \
-    default-jdk \
+    openjdk-21-jdk \
     apktool \
     aapt \
     adb \
@@ -46,13 +45,6 @@ RUN curl -fsSL -o go.tar.gz "https://dl.google.com/go/go${GO_VERSION}.linux-amd6
 RUN git clone https://github.com/sonirico/mcp-shell && \
     cd mcp-shell && \
     make install
-
-# Install JADX
-RUN curl -fsSL -o jadx.zip "https://github.com/skylot/jadx/releases/download/v${JADX_VERSION}/jadx-${JADX_VERSION}.zip" && \
-    unzip jadx.zip -d /opt/jadx && \
-    rm -f jadx.zip && \
-    ln -s /opt/jadx/bin/jadx /usr/bin/jadx  && \
-    chmod +x /opt/jadx/bin/jadx
 
 # Set workdir
 WORKDIR "${APPDIR}"
