@@ -1,43 +1,41 @@
 FROM debian:trixie-slim AS base
 
 # Environment
-ENV USERNAME="user" \
-    UID="1000" \
-    APPDIR="/app" \
-    POETRY_VIRTUALENVS_CREATE=1 \
-    POETRY_VIRTUALENVS_IN_PROJECT=1 \
-    POETRY_NO_INTERACTION=1 \
-    POETRY_HOME=/opt/poetry
+ENV USERNAME=user \
+    UID=1000 \
+    APPDIR=/app \
+    GO_VERSION=1.26.1
 
 # Create unprivilleged user
 RUN groupadd -g "${UID}" "${USERNAME}" && \
     useradd -u "${UID}" -g "${USERNAME}" -s /bin/bash -m "${USERNAME}"
 
-# Install dependencies
+# Install apt dependencies
 RUN DEBIAN_FRONTEND=noninteractive apt update -y && \
-    DEBIAN_FRONTEND=noninteractive apt install -y --no-install-recommends \
+    DEBIAN_FRONTEND=noninteractive apt install -y \
     curl \
-    apktool \
-    file \
-    python3 \
-    python3-pip \
+    ca-certificates \
+    git \
+    build-essential \
     && apt autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 
-# Install poetry
-RUN curl -sSL https://install.python-poetry.org | python3 -
+# Install Go
+RUN curl -fsSL -o go.tar.gz "https://dl.google.com/go/go${GO_VERSION}.linux-amd64.tar.gz" && \
+    tar -C /usr/local -xzf go.tar.gz && \
+    rm -f go.tar.gz && \
+    ln -s /usr/local/go/bin/go /usr/bin/go
+
+# Install mcp-shell
+RUN git clone https://github.com/sonirico/mcp-shell && \
+    cd mcp-shell && \
+    make install
 
 # Set workdir
 WORKDIR "${APPDIR}"
 
-# Copy poetry files
-COPY pyproject.toml poetry.lock ./
-
-# Install python dependencies
-RUN ${POETRY_HOME}/bin/poetry install --no-root --only main
-
 # Copy sources
-COPY ./src/ ./
+COPY ./src/ .
 
 # Change ownership
 RUN chown -R "${UID}":"${UID}" "${APPDIR}"
@@ -48,5 +46,5 @@ USER "${USERNAME}"
 # Entrypoint
 ENTRYPOINT [ "bash" ]
 
-# Command
+# Cmd
 CMD [ "entrypoint.sh" ]
