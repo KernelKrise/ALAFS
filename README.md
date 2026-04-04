@@ -5,7 +5,6 @@ Android LLM-driven Automated Fuzzing System
 ## Requirements
 
 - Docker
-- Docker buildx plugin
 
 ## Build
 
