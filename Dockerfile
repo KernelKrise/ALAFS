@@ -21,6 +21,9 @@ RUN DEBIAN_FRONTEND=noninteractive apt update -y && \
     git \
     build-essential \
     binutils \
+    binutils-arm-linux-gnueabi \
+    binutils-arm-linux-gnueabihf \
+    binutils-aarch64-linux-gnu \
     file \
     gcc \
     g++ \

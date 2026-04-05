@@ -1,0 +1,4 @@
+[submodule "ghidra-mcp"]
+	path = ghidra-mcp
+	url = https://github.com/bethington/ghidra-mcp.git
+	branch = main
