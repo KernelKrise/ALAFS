@@ -24,10 +24,6 @@ fi
 ilog "Building docker image"
 docker ${BUILD_FLAGS} .
 
-# Pull Jadx image
-ilog "Pulling JADX MCP image"
-docker pull xjoker/jadx-ai-mcp:latest
-
 # Compose MCP config
 ilog "Composing MCP config"
 cat << EOF > "${MCP_CONFIG_PATH}"

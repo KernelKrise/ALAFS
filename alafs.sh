@@ -8,6 +8,24 @@ ilog() {
 	echo -e "[*] ${1}" >&2
 }
 
+# Argparser
+while [[ $# -gt 0 ]]; do
+    case "${1}" in
+        -d|--debug)
+            DEBUG=ON
+            shift
+            ;;
+        -h|--help)
+            ilog "Usage: ${0} [-d --debug]"
+            exit 0
+            ;;
+        *)
+            ilog "Unknown argument: ${1}"
+            exit 1
+            ;;
+    esac
+done
+
 # Variables
 SCRIPT_DIR="$(dirname "$(realpath "${BASH_SOURCE[0]}")")"
 COMMON_FILE_NAME="common.sh"
@@ -28,10 +46,16 @@ mkdir -p "${SHARED_DIR_PATH}"
 ilog "Fixing shared directory permissions to: ${SHARED_DIR_PERM}"
 chmod "${SHARED_DIR_PERM}" "${SHARED_DIR_PATH}"
 
+# Compose environment variables
+if [[ -v DEBUG ]]; then
+	DOCKER_ARGS="-e DEBUG=ON -t"
+fi
+
 # Start docker container
 ilog "Starting docker container"
 docker run \
 	--rm \
 	-i \
 	-v "${SHARED_DIR_PATH}":"${SHARED_DIR_INT_PATH}" \
+	${DOCKER_ARGS} \
 	"${DOCKER_IMAGE_NAME}"
