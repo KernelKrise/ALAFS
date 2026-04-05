@@ -1,0 +1,6 @@
+security:
+  enabled: true
+  use_shell_execution: true
+  working_directory: /app
+  max_output_size: 524288
+  max_execution_time: 86400s

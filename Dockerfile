@@ -7,6 +7,8 @@ ENV USERNAME=user \
     GO_VERSION=1.26.1 \
     JADX_VERSION=1.5.5
 
+ENV MCP_SHELL_SEC_CONFIG_FILE="${APPDIR}/security.yaml"
+
 # Create unprivilleged user
 RUN groupadd -g "${UID}" "${USERNAME}" && \
     useradd -u "${UID}" -g "${USERNAME}" -s /bin/bash -m "${USERNAME}"
