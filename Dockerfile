@@ -5,7 +5,8 @@ ENV USERNAME=user \
     UID=1000 \
     APPDIR=/app \
     GO_VERSION=1.26.1 \
-    JADX_VERSION=1.5.5
+    JADX_VERSION=1.5.5 \
+    NDK_VERSION=r29
 
 ENV MCP_SHELL_SEC_CONFIG_FILE="${APPDIR}/security.yaml"
 
@@ -58,6 +59,11 @@ RUN curl -fsSL -o jadx.zip "https://github.com/skylot/jadx/releases/download/v${
     rm -f jadx.zip && \
     ln -s /opt/jadx/bin/jadx /usr/bin/jadx  && \
     chmod +x /opt/jadx/bin/jadx
+
+# Install NDK
+RUN curl -fsSL -o ndk.zip "https://dl.google.com/android/repository/android-ndk-${NDK_VERSION}-linux.zip" && \
+    unzip ndk.zip -d /opt && \
+    rm ndk.zip
 
 # Set workdir
 WORKDIR "${APPDIR}"
