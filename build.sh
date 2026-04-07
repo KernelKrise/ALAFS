@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Exit on errors
+set -e
+
 # Logging
 ilog() {
 	echo -e "[*] ${1}"
